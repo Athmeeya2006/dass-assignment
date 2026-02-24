@@ -1,0 +1,87 @@
+Felicity Fest Management System - Deployment Information
+=========================================================
+
+Frontend URL: https://felicity-frontend.vercel.app
+Backend URL:  https://felicity-backend.onrender.com
+Database:     MongoDB Atlas (connection via MONGODB_URI env variable)
+
+Admin Login:  admin@felicity.com / Admin@123
+
+=========================================================
+STEP-BY-STEP DEPLOYMENT PROCEDURE
+=========================================================
+
+STEP 1 -- DATABASE (MongoDB Atlas)
+-----------------------------------
+  1. Go to https://www.mongodb.com/cloud/atlas and sign up / log in.
+  2. Click "Create" -> choose M0 (free tier) -> pick a region -> name it
+     (e.g. felicity-cluster) -> click "Create Deployment".
+  3. Go to "Database Access" -> "Add New Database User":
+       Username: felicity_admin
+       Password: (generate and save a strong password)
+       Role: readWriteAnyDatabase
+  4. Go to "Network Access" -> "Add IP Address" -> Allow 0.0.0.0/0
+     (allows Render and Vercel to connect).
+  5. Go to "Connect" -> "Drivers" -> copy the connection string.
+     Replace <password> with your password. Example:
+       mongodb+srv://felicity_admin:PASS@cluster.abc.mongodb.net/felicity?retryWrites=true&w=majority
+
+STEP 2 -- BACKEND (Render)
+-----------------------------------
+  1. Push the backend/ folder to a GitHub repository.
+  2. Go to https://render.com -> sign up with GitHub.
+  3. Click "New +" -> "Web Service" -> connect your GitHub repo.
+  4. Configure the service:
+       Name:          felicity-backend
+       Environment:   Node
+       Root Directory: backend   (if monorepo) or ./  (if backend-only repo)
+       Build Command: npm install
+       Start Command: node server.js
+  5. Go to "Environment" tab and add these variables:
+       MONGODB_URI     = (paste Atlas connection string from Step 1)
+       JWT_SECRET      = (run: openssl rand -base64 32)
+       JWT_EXPIRY      = 7d
+       BCRYPT_ROUNDS   = 12
+       SMTP_HOST       = smtp.gmail.com
+       SMTP_PORT       = 587
+       SMTP_USER       = your-email@gmail.com
+       SMTP_PASS       = (Gmail App Password from myaccount.google.com/apppasswords)
+       FRONTEND_URL    = https://felicity-frontend.vercel.app
+       ADMIN_EMAIL     = admin@felicity.com
+       ADMIN_PASSWORD  = Admin@123
+       NODE_ENV        = production
+  6. Click "Create Web Service". Render will build and deploy.
+  7. Copy the live URL (e.g. https://felicity-backend.onrender.com).
+  8. Verify: open https://felicity-backend.onrender.com/api/health in browser.
+     Admin account is auto-seeded on first startup.
+
+STEP 3 -- FRONTEND (Vercel)
+-----------------------------------
+  1. Push the frontend/ folder to a GitHub repository.
+  2. Go to https://vercel.com -> sign up with GitHub.
+  3. Click "Add New..." -> "Project" -> import the frontend repo.
+  4. Configure:
+       Framework Preset: Vite
+       Root Directory:   frontend  (if monorepo) or ./  (if frontend-only repo)
+       Build Command:    npm run build
+       Output Directory: dist
+  5. Go to "Settings" -> "Environment Variables" and add:
+       VITE_API_URL = https://felicity-backend.onrender.com/api
+  6. Click "Deploy".
+  7. Copy the live URL (e.g. https://felicity-frontend.vercel.app).
+
+STEP 4 -- POST-DEPLOYMENT VERIFICATION
+-----------------------------------
+  1. Open the Frontend URL in a browser.
+  2. Log in with admin@felicity.com / Admin@123.
+  3. Test signup, login, event browsing, event creation.
+  4. If CORS errors appear, verify FRONTEND_URL env var in Render
+     matches the Vercel URL exactly, then redeploy.
+
+=========================================================
+LOCAL QUICK-START (for development)
+=========================================================
+  cd backend  && npm install && npm run dev     (runs on port 5000)
+  cd frontend && npm install && npm run dev     (runs on port 5173)
+  Open http://localhost:5173
+  Admin login: admin@felicity.com / Admin@123

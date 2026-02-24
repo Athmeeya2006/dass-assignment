@@ -1,0 +1,377 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------------------
+   NEON BRUTALIST FESTIVAL - DESIGN SYSTEM
+   ----------------------------------------- */
+
+:root {
+  --ink: #0A0A0F;
+  --surface: #12121A;
+  --border: #1E1E2E;
+  --accent-primary: #E8FF00;
+  --accent-secondary: #FF3CAC;
+  --accent-tertiary: #00D4FF;
+  --text-primary: #F0F0F5;
+  --text-secondary: #8888AA;
+  --text-muted: #444455;
+  --success: #00FF9D;
+  --error: #FF4560;
+  --gradient-hero: linear-gradient(135deg, #0A0A0F 0%, #1A0A2E 50%, #0A1A2E 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--ink);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--ink);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* --- CUSTOM SCROLLBAR --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--ink);
+}
+
+/* --- SELECTION --- */
+::selection {
+  background: var(--accent-primary);
+  color: var(--ink);
+}
+
+/* --- FOCUS STATES --- */
+*:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* --- NOISE GRAIN OVERLAY --- */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  animation: grain 0.5s steps(1) infinite;
+  opacity: 0.4;
+}
+
+/* --- SKELETON LOADING --- */
+.skeleton {
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(232, 255, 0, 0.05) 50%, transparent 100%);
+  animation: shimmer 2s linear infinite;
+}
+
+/* --- SCROLLBAR HIDE --- */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(7%, -25%); }
+  50% { transform: translate(-15%, 10%); }
+  70% { transform: translate(0%, 15%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes glowBorder {
+  0%, 100% { border-color: var(--border); }
+  50% { border-color: var(--accent-primary); }
+}
+
+@keyframes meshGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes progressBar {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.4s ease-out;
+}
+
+/* --- STAGGER CHILDREN --- */
+.stagger-children > * {
+  opacity: 0;
+  animation: enterStagger 0.5s ease-out forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 250ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 350ms; }
+.stagger-children > *:nth-child(9) { animation-delay: 400ms; }
+.stagger-children > *:nth-child(10) { animation-delay: 450ms; }
+
+@keyframes enterStagger {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* --- CARD HOVER GLOW --- */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border);
+}
+.card-hover:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-4px);
+  box-shadow: 0 0 30px rgba(232, 255, 0, 0.08), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* --- BRUTALIST BUTTON --- */
+.btn-brutal {
+  position: relative;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 13px;
+  padding: 12px 28px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+.btn-brutal:hover {
+  transform: translateY(-2px);
+}
+.btn-brutal:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* primary variant */
+.btn-primary {
+  background: var(--accent-primary);
+  color: var(--ink);
+  border: none;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 20px rgba(232, 255, 0, 0.4);
+}
+
+/* ghost variant */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* danger variant */
+.btn-danger {
+  background: transparent;
+  color: var(--error);
+  border: 1px solid rgba(255, 69, 96, 0.3);
+}
+.btn-danger:hover {
+  background: rgba(255, 69, 96, 0.1);
+  border-color: var(--error);
+}
+
+/* --- FLOATING LABEL INPUTS --- */
+.input-brutal {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-primary);
+  padding: 12px 0;
+  width: 100%;
+  transition: border-color 0.3s;
+}
+.input-brutal:focus {
+  outline: none;
+  border-bottom-color: var(--accent-primary);
+}
+.input-brutal::placeholder {
+  color: var(--text-muted);
+}
+
+/* --- PILL TABS --- */
+.tab-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 8px 16px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border);
+  transition: all 0.25s;
+  cursor: pointer;
+}
+.tab-pill:hover {
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+.tab-pill.active {
+  background: var(--accent-primary);
+  color: var(--ink);
+  border-color: var(--accent-primary);
+}
+
+/* --- SECTION DIVIDER --- */
+.section-divider {
+  position: relative;
+  text-align: center;
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
+}
+.section-divider::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--ink);
+  padding: 0 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+}
+
+/* --- TYPE BADGE --- */
+.type-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 4px 10px;
+  border-left: 3px solid;
+}
+
+/* --- STAT NUMBER --- */
+.stat-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--text-primary);
+}
+.stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+}
+
+/* --- MESH GRADIENT BACKGROUND --- */
+.mesh-bg {
+  background: linear-gradient(-45deg, #0A0A0F, #1A0A2E, #0A1A2E, #0A0A0F);
+  background-size: 400% 400%;
+  animation: meshGradient 15s ease infinite;
+}
+
+/* --- PROGRESS BAR FOR TOAST --- */
+.toast-progress {
+  animation: progressBar 3.5s linear forwards;
+}
+
+/* --- SHAKE ANIMATION --- */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+  75% { transform: translateX(-4px); }
+}
+.animate-shake {
+  animation: shake 0.4s ease-out;
+}
+
+/* --- TORN EDGE (for ticket) --- */
+.torn-edge {
+  clip-path: polygon(
+    0% 0%, 5% 3%, 10% 0%, 15% 4%, 20% 1%, 25% 3%, 30% 0%, 35% 2%, 40% 0%,
+    45% 3%, 50% 1%, 55% 4%, 60% 0%, 65% 3%, 70% 1%, 75% 2%, 80% 0%, 85% 3%,
+    90% 1%, 95% 4%, 100% 0%, 100% 100%, 95% 97%, 90% 100%, 85% 96%, 80% 99%,
+    75% 97%, 70% 100%, 65% 98%, 60% 100%, 55% 97%, 50% 99%, 45% 96%, 40% 100%,
+    35% 98%, 30% 100%, 25% 97%, 20% 99%, 15% 96%, 10% 100%, 5% 97%, 0% 100%
+  );
+}
