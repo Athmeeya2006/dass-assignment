@@ -1,0 +1,35 @@
+{
+  "name": "felicity-event-management-backend",
+  "version": "1.0.0",
+  "description": "Backend for Felicity Event Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node seed/adminSeed.js",
+    "build": "cd ../frontend && npm install && npm run build",
+    "install:all": "npm install && cd ../frontend && npm install"
+  },
+  "keywords": ["event", "management", "iiit"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.18.2",
+    "mongoose": "7.5.0",
+    "bcryptjs": "2.4.3",
+    "jsonwebtoken": "9.0.0",
+    "dotenv": "16.0.3",
+    "nodemailer": "6.9.3",
+    "multer": "1.4.4",
+    "qrcode": "1.5.3",
+    "cors": "2.8.5",
+    "express-async-errors": "3.1.1",
+    "axios": "1.5.0",
+    "socket.io": "4.7.2",
+    "ical-generator": "3.2.0",
+    "uuid": "9.0.0",
+    "json2csv": "5.0.7",
+    "fuse.js": "6.5.3",
+    "nodemon": "3.0.1"
+  }
+}
